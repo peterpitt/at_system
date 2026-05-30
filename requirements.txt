@@ -1,0 +1,15 @@
+# 永豐 Shioaji API
+shioaji[speed]>=1.2.0
+
+# 環境變數
+python-dotenv>=1.0.0
+
+# 資料處理與技術指標
+pandas>=2.0.0
+numpy>=1.24.0
+
+# HTTP（Telegram 通知用）
+requests>=2.31.0
+
+# 測試
+pytest>=7.4.0

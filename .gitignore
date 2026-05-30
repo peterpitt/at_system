@@ -1,0 +1,39 @@
+# ============================================================
+#  機密檔案 — 絕對不可進入版本控制
+# ============================================================
+.env
+.env.*
+!.env.example
+
+# 永豐憑證
+*.pfx
+*.p12
+Sinopac.pfx
+
+# 日誌與交易紀錄（可能含帳務資訊）
+logs/
+*.log
+state/
+*.state.json
+trade_records/
+*.csv
+
+# kill switch 旗標檔
+KILL_SWITCH
+HALT_TRADING
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
