@@ -8,8 +8,11 @@ python-dotenv>=1.0.0
 pandas>=2.0.0
 numpy>=1.24.0
 
-# HTTP（Telegram 通知用）
+# HTTP（Telegram / Discord 通知用）
 requests>=2.31.0
+
+# Supabase 交易紀錄（可選，不安裝則紀錄功能停用）
+supabase>=2.0.0
 
 # 測試
 pytest>=7.4.0

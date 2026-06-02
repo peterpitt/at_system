@@ -24,6 +24,7 @@ from .notifier import Notifier
 from .position import Position, Side
 from .risk_manager import RiskManager
 from .strategy import Signal, StrategyDecision, TrendStrategy
+from .supabase_recorder import SupabaseRecorder
 
 log = get_logger("trader")
 
@@ -37,12 +38,14 @@ class Trader:
         strategy: TrendStrategy,
         risk: RiskManager,
         notifier: Notifier,
+        recorder: SupabaseRecorder | None = None,
     ) -> None:
         self.cfg = cfg
         self.broker = broker
         self.strategy = strategy
         self.risk = risk
         self.notifier = notifier
+        self.recorder = recorder or SupabaseRecorder()
         self.position = Position(point_value=cfg.point_value)
         self._running = False
 
@@ -74,6 +77,16 @@ class Trader:
         log.info(msg)
         self.notifier.send(msg)
         self.risk.record_closed_trade(realized_pnl=pnl)
+        self.recorder.record_closed_trade(
+            side=self.position.side.value,
+            contracts=self.position.contracts,
+            entry_price=self.position.entry_price,
+            exit_price=exit_price,
+            stop_price=self.position.stop_price,
+            take_profit_price=self.position.take_profit_price,
+            realized_pnl=pnl,
+            close_reason=reason,
+        )
         self.position.flatten()
 
     # ---------- 進場 ----------

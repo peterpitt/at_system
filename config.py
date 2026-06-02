@@ -99,6 +99,11 @@ class Config:
     # --- 通知 ---
     telegram_token: str
     telegram_chat_id: str
+    discord_webhook_url: str
+
+    # --- Supabase ---
+    supabase_url: str
+    supabase_key: str
 
     # ----- 衍生屬性 -----
     @property
@@ -237,5 +242,8 @@ def load_config() -> Config:
         enable_night_session=_get_bool("ENABLE_NIGHT_SESSION", False),
         telegram_token=_get("TELEGRAM_BOT_TOKEN", "") or "",
         telegram_chat_id=_get("TELEGRAM_CHAT_ID", "") or "",
+        discord_webhook_url=_get("DISCORD_WEBHOOK_URL", "") or "",
+        supabase_url=_get("SUPABASE_URL", "") or "",
+        supabase_key=_get("SUPABASE_KEY", "") or "",
     )
     return cfg

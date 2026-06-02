@@ -23,6 +23,7 @@ from src.logger import get_logger
 from src.notifier import Notifier
 from src.risk_manager import RiskManager
 from src.strategy import TrendStrategy
+from src.supabase_recorder import SupabaseRecorder
 from src.trader import Trader
 
 log = get_logger("main")
@@ -71,7 +72,18 @@ def main() -> int:
 
     force_paper = args.dry_run
 
-    notifier = Notifier(cfg.telegram_token, cfg.telegram_chat_id)
+    notifier = Notifier(
+        cfg.telegram_token,
+        cfg.telegram_chat_id,
+        discord_webhook_url=cfg.discord_webhook_url,
+    )
+    mode_label = "LIVE" if (not force_paper and cfg.is_live) else "PAPER"
+    recorder = SupabaseRecorder(
+        url=cfg.supabase_url,
+        key=cfg.supabase_key,
+        symbol=cfg.symbol,
+        mode=mode_label,
+    )
     simulation = True if force_paper else cfg.simulation
     broker = ShioajiBroker(simulation=simulation)
 
@@ -146,6 +158,7 @@ def main() -> int:
         strategy=strategy,
         risk=risk,
         notifier=notifier,
+        recorder=recorder,
     )
 
     try:
